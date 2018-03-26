@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.news.mapper.CommentVoMapper" >
+<resultMap id="CommentVoResultMap" type="com.news.entity.CommentVo" >
+	<id column="comment_id" property="commentId" jdbcType="INTEGER" />
+    <result column="comment_content" property="commentContent" jdbcType="VARCHAR" />
+    <result column="comment_createtime" property="commentCreatetime" jdbcType="TIMESTAMP" />
+    <result column="user_id" property="userId" jdbcType="VARCHAR" />
+    <result column="new_id" property="newId" jdbcType="VARCHAR" />
+    <result column="user_name" property="userName" jdbcType="VARCHAR" />
+    <result column="user_img_url" property="userImgUrl" jdbcType="VARCHAR" />
+  </resultMap>
+<select id="getCommentVoByNewsId" parameterType="java.lang.String" resultMap="CommentVoResultMap">
+   SELECT `comment`.*,`user`.`user_name`,`user`.`user_img_url`
+    FROM `comment`,`user`
+    WHERE `comment`.`user_id` = `user`.`user_id`   AND `comment`.new_id = #{id} ORDER BY `comment`.comment_createtime DESC
+</select>
+</mapper>

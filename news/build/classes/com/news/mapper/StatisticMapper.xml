@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.news.mapper.StatisticMapper" >
+  <resultMap id="BaseResultMap" type="com.news.entity.Statistic" >
+    <id column="statistic_id" property="statisticId" jdbcType="INTEGER" />
+    <result column="statistic_read" property="statisticRead" jdbcType="INTEGER" />
+    <result column="statistic_collection" property="statisticCollection" jdbcType="INTEGER" />
+    <result column="statistic_comment" property="statisticComment" jdbcType="INTEGER" />
+    <result column="new_id" property="newId" jdbcType="VARCHAR" />
+  </resultMap>
+  <select id="getStatisticByNewsId" resultMap="BaseResultMap" parameterType="java.lang.String" >
+  	select * from statistic where new_id = #{id}
+  </select>
+  
+  <update id="updateByPrimaryKeySelective" parameterType="com.news.entity.Statistic" >
+    update statistic
+    <set >
+      <if test="statisticRead != null" >
+        statistic_read = #{statisticRead,jdbcType=INTEGER},
+      </if>
+      <if test="statisticCollection != null" >
+        statistic_collection = #{statisticCollection,jdbcType=INTEGER},
+      </if>
+      <if test="statisticComment != null" >
+        statistic_comment = #{statisticComment,jdbcType=INTEGER},
+      </if>
+      <if test="newId != null" >
+        new_id = #{newId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where statistic_id = #{statisticId,jdbcType=INTEGER}
+  </update>
+   <insert id="insertSelective" parameterType="com.news.entity.Statistic" >
+    insert into statistic
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="statisticId != null" >
+        statistic_id,
+      </if>
+      <if test="statisticRead != null" >
+        statistic_read,
+      </if>
+      <if test="statisticCollection != null" >
+        statistic_collection,
+      </if>
+      <if test="statisticComment != null" >
+        statistic_comment,
+      </if>
+      <if test="newId != null" >
+        new_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="statisticId != null" >
+        #{statisticId,jdbcType=INTEGER},
+      </if>
+      <if test="statisticRead != null" >
+        #{statisticRead,jdbcType=INTEGER},
+      </if>
+      <if test="statisticCollection != null" >
+        #{statisticCollection,jdbcType=INTEGER},
+      </if>
+      <if test="statisticComment != null" >
+        #{statisticComment,jdbcType=INTEGER},
+      </if>
+      <if test="newId != null" >
+        #{newId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <!-- <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    statistic_id, statistic_read, statistic_collection, statistic_comment, new_id
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.news.entity.StatisticExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from statistic
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from statistic
+    where statistic_id = #{statisticId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from statistic
+    where statistic_id = #{statisticId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.news.entity.StatisticExample" >
+    delete from statistic
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.news.entity.Statistic" >
+    insert into statistic (statistic_id, statistic_read, statistic_collection, 
+      statistic_comment, new_id)
+    values (#{statisticId,jdbcType=INTEGER}, #{statisticRead,jdbcType=INTEGER}, #{statisticCollection,jdbcType=INTEGER}, 
+      #{statisticComment,jdbcType=INTEGER}, #{newId,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.news.entity.Statistic" >
+    insert into statistic
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="statisticId != null" >
+        statistic_id,
+      </if>
+      <if test="statisticRead != null" >
+        statistic_read,
+      </if>
+      <if test="statisticCollection != null" >
+        statistic_collection,
+      </if>
+      <if test="statisticComment != null" >
+        statistic_comment,
+      </if>
+      <if test="newId != null" >
+        new_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="statisticId != null" >
+        #{statisticId,jdbcType=INTEGER},
+      </if>
+      <if test="statisticRead != null" >
+        #{statisticRead,jdbcType=INTEGER},
+      </if>
+      <if test="statisticCollection != null" >
+        #{statisticCollection,jdbcType=INTEGER},
+      </if>
+      <if test="statisticComment != null" >
+        #{statisticComment,jdbcType=INTEGER},
+      </if>
+      <if test="newId != null" >
+        #{newId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.news.entity.StatisticExample" resultType="java.lang.Integer" >
+    select count(*) from statistic
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update statistic
+    <set >
+      <if test="record.statisticId != null" >
+        statistic_id = #{record.statisticId,jdbcType=INTEGER},
+      </if>
+      <if test="record.statisticRead != null" >
+        statistic_read = #{record.statisticRead,jdbcType=INTEGER},
+      </if>
+      <if test="record.statisticCollection != null" >
+        statistic_collection = #{record.statisticCollection,jdbcType=INTEGER},
+      </if>
+      <if test="record.statisticComment != null" >
+        statistic_comment = #{record.statisticComment,jdbcType=INTEGER},
+      </if>
+      <if test="record.newId != null" >
+        new_id = #{record.newId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update statistic
+    set statistic_id = #{record.statisticId,jdbcType=INTEGER},
+      statistic_read = #{record.statisticRead,jdbcType=INTEGER},
+      statistic_collection = #{record.statisticCollection,jdbcType=INTEGER},
+      statistic_comment = #{record.statisticComment,jdbcType=INTEGER},
+      new_id = #{record.newId,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.news.entity.Statistic" >
+    update statistic
+    <set >
+      <if test="statisticRead != null" >
+        statistic_read = #{statisticRead,jdbcType=INTEGER},
+      </if>
+      <if test="statisticCollection != null" >
+        statistic_collection = #{statisticCollection,jdbcType=INTEGER},
+      </if>
+      <if test="statisticComment != null" >
+        statistic_comment = #{statisticComment,jdbcType=INTEGER},
+      </if>
+      <if test="newId != null" >
+        new_id = #{newId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where statistic_id = #{statisticId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.news.entity.Statistic" >
+    update statistic
+    set statistic_read = #{statisticRead,jdbcType=INTEGER},
+      statistic_collection = #{statisticCollection,jdbcType=INTEGER},
+      statistic_comment = #{statisticComment,jdbcType=INTEGER},
+      new_id = #{newId,jdbcType=VARCHAR}
+    where statistic_id = #{statisticId,jdbcType=INTEGER}
+  </update> -->
+</mapper>

@@ -1,0 +1,341 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.news.mapper.NewMapper" >
+  <resultMap id="BaseResultMap" type="com.news.entity.New" >
+    <id column="new_id" property="newId" jdbcType="VARCHAR" />
+    <result column="new_title" property="newTitle" jdbcType="VARCHAR" />
+    <result column="new_img" property="newImg" jdbcType="VARCHAR" />
+    <result column="new_createtime" property="newCreatetime" jdbcType="TIMESTAMP" />
+    <result column="new_updatetime" property="newUpdatetime" jdbcType="TIMESTAMP" />
+    <result column="new_pass" property="newPass" jdbcType="INTEGER" />
+    <result column="category_id" property="categoryId" jdbcType="INTEGER" />
+    <result column="user_id" property="userId" jdbcType="VARCHAR" />
+    <result column="new_text" property="newText" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.news.entity.New" extends="BaseResultMap" >
+    <result column="new_content" property="newContent" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    new_id, new_title, new_img, new_createtime, new_updatetime, new_pass, category_id, 
+    user_id,new_text
+  </sql>
+  <sql id="Blob_Column_List" >
+    new_content
+  </sql>
+  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.news.entity.NewExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from new
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.news.entity.NewExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from new
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from new
+    where new_id = #{newId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from new
+    where new_id = #{newId,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.news.entity.NewExample" >
+    delete from new
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.news.entity.New" >
+    insert into new (new_id, new_title, new_img, 
+      new_createtime, new_updatetime, new_pass, 
+      category_id, user_id, new_content,new_text
+      )
+    values (#{newId,jdbcType=VARCHAR}, #{newTitle,jdbcType=VARCHAR}, #{newImg,jdbcType=VARCHAR}, 
+      #{newCreatetime,jdbcType=TIMESTAMP}, #{newUpdatetime,jdbcType=TIMESTAMP}, #{newPass,jdbcType=INTEGER}, 
+      #{categoryId,jdbcType=INTEGER}, #{userId,jdbcType=VARCHAR}, #{newContent,jdbcType=LONGVARCHAR},#{newText,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.news.entity.New" >
+    insert into new
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="newId != null" >
+        new_id,
+      </if>
+      <if test="newTitle != null" >
+        new_title,
+      </if>
+      <if test="newImg != null" >
+        new_img,
+      </if>
+      <if test="newCreatetime != null" >
+        new_createtime,
+      </if>
+      <if test="newUpdatetime != null" >
+        new_updatetime,
+      </if>
+      <if test="newPass != null" >
+        new_pass,
+      </if>
+      <if test="categoryId != null" >
+        category_id,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="newContent != null" >
+        new_content,
+      </if>
+      <if test="newText != null" >
+        new_text,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="newId != null" >
+        #{newId,jdbcType=VARCHAR},
+      </if>
+      <if test="newTitle != null" >
+        #{newTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="newImg != null" >
+        #{newImg,jdbcType=VARCHAR},
+      </if>
+      <if test="newCreatetime != null" >
+        #{newCreatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="newUpdatetime != null" >
+        #{newUpdatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="newPass != null" >
+        #{newPass,jdbcType=INTEGER},
+      </if>
+      <if test="categoryId != null" >
+        #{categoryId,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="newContent != null" >
+        #{newContent,jdbcType=LONGVARCHAR},
+      </if>
+        <if test="newText != null" >
+        #{newText,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.news.entity.NewExample" resultType="java.lang.Integer" >
+    select count(*) from new
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update new
+    <set >
+      <if test="record.newId != null" >
+        new_id = #{record.newId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.newTitle != null" >
+        new_title = #{record.newTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="record.newImg != null" >
+        new_img = #{record.newImg,jdbcType=VARCHAR},
+      </if>
+      <if test="record.newCreatetime != null" >
+        new_createtime = #{record.newCreatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.newUpdatetime != null" >
+        new_updatetime = #{record.newUpdatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.newPass != null" >
+        new_pass = #{record.newPass,jdbcType=INTEGER},
+      </if>
+      <if test="record.categoryId != null" >
+        category_id = #{record.categoryId,jdbcType=INTEGER},
+      </if>
+      <if test="record.userId != null" >
+        user_id = #{record.userId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.newText != null" >
+        new_text = #{record.newText,jdbcType=VARCHAR},
+      </if>
+      <if test="record.newContent != null" >
+        new_content = #{record.newContent,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map" >
+    update new
+    set new_id = #{record.newId,jdbcType=VARCHAR},
+      new_title = #{record.newTitle,jdbcType=VARCHAR},
+      new_img = #{record.newImg,jdbcType=VARCHAR},
+      new_createtime = #{record.newCreatetime,jdbcType=TIMESTAMP},
+      new_updatetime = #{record.newUpdatetime,jdbcType=TIMESTAMP},
+      new_pass = #{record.newPass,jdbcType=INTEGER},
+      category_id = #{record.categoryId,jdbcType=INTEGER},
+      user_id = #{record.userId,jdbcType=VARCHAR},
+      new_text = #{record.newText,jdbcType=VARCHAR},
+      new_content = #{record.newContent,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update new
+    set new_id = #{record.newId,jdbcType=VARCHAR},
+      new_title = #{record.newTitle,jdbcType=VARCHAR},
+      new_img = #{record.newImg,jdbcType=VARCHAR},
+      new_createtime = #{record.newCreatetime,jdbcType=TIMESTAMP},
+      new_updatetime = #{record.newUpdatetime,jdbcType=TIMESTAMP},
+      new_pass = #{record.newPass,jdbcType=INTEGER},
+      category_id = #{record.categoryId,jdbcType=INTEGER},
+      user_id = #{record.userId,jdbcType=VARCHAR}
+      new_text = #{record.newText,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.news.entity.New" >
+    update new
+    <set >
+      <if test="newTitle != null" >
+        new_title = #{newTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="newImg != null" >
+        new_img = #{newImg,jdbcType=VARCHAR},
+      </if>
+      <if test="newCreatetime != null" >
+        new_createtime = #{newCreatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="newUpdatetime != null" >
+        new_updatetime = #{newUpdatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="newPass != null" >
+        new_pass = #{newPass,jdbcType=INTEGER},
+      </if>
+      <if test="categoryId != null" >
+        category_id = #{categoryId,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="newText != null" >
+        new_text = #{newText,jdbcType=VARCHAR},
+      </if>
+      <if test="newContent != null" >
+        new_content = #{newContent,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where new_id = #{newId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.news.entity.New" >
+    update new
+    set new_title = #{newTitle,jdbcType=VARCHAR},
+      new_img = #{newImg,jdbcType=VARCHAR},
+      new_createtime = #{newCreatetime,jdbcType=TIMESTAMP},
+      new_updatetime = #{newUpdatetime,jdbcType=TIMESTAMP},
+      new_pass = #{newPass,jdbcType=INTEGER},
+      category_id = #{categoryId,jdbcType=INTEGER},
+      user_id = #{userId,jdbcType=VARCHAR},
+      new_text = #{newText,jdbcType=VARCHAR},
+      new_content = #{newContent,jdbcType=LONGVARCHAR}
+    where new_id = #{newId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.news.entity.New" >
+    update new
+    set new_title = #{newTitle,jdbcType=VARCHAR},
+      new_img = #{newImg,jdbcType=VARCHAR},
+      new_createtime = #{newCreatetime,jdbcType=TIMESTAMP},
+      new_updatetime = #{newUpdatetime,jdbcType=TIMESTAMP},
+      new_pass = #{newPass,jdbcType=INTEGER},
+      category_id = #{categoryId,jdbcType=INTEGER},
+      user_id = #{userId,jdbcType=VARCHAR}
+      new_text = #{newText,jdbcType=VARCHAR},
+    where new_id = #{newId,jdbcType=VARCHAR}
+  </update>
+</mapper>

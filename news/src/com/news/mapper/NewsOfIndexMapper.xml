@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.news.mapper.NewsOfIndexMapper" >
+<select id="showAllNews" parameterType="java.lang.String" resultType="com.news.entity.NewsOfIndex">
+   SELECT 
+	`new`.`new_id` newId,
+	`new`.`new_img` newImg,
+	`new`.`new_title` newTitle,
+	`new`.`new_text` newText,
+	`new`.`new_createtime` newCreatetime,
+	`user`.`user_id` userId,
+	`user`.`user_name` userName,
+	 (SELECT`statistic`.`statistic_comment` FROM `statistic` WHERE `statistic`.`new_id` = `new`.`new_id`)  statisticComment 
+ FROM `new`,`user` WHERE `new`.`user_id` = `user`.`user_id` and `new`.`new_pass` = 1
+  <if test="category != '' and category != 'index'">
+  and `new`.`category_id` in (select nav_id from `nav` where nav_href = #{category})
+  </if>  
+ 
+</select>
+
+<select id="getFastNews" resultType="com.news.entity.NewsOfIndex">
+   SELECT   `new`.`new_id` newId,  `new`.`new_title` newTitle  FROM `new` where `new`.`new_pass` = 1 ORDER BY  `new`.`new_createtime` desc LIMIT 0,3
+</select>
+<select id="getNewsOfCollection" parameterType="java.lang.String" resultType="com.news.entity.NewsOfIndex">
+SELECT	`new`.`new_id` newId,
+	`new`.`new_img` newImg,
+	`new`.`new_title` newTitle,
+	`new`.`new_text` newText,
+	`new`.`new_createtime` newCreatetime,
+	`user`.`user_id` userId,
+	`user`.`user_name` userName,
+	 (SELECT`statistic`.`statistic_comment` FROM `statistic` WHERE `statistic`.`new_id` = `new`.`new_id`)  statisticComment 
+ FROM `new`,`user` WHERE `new`.`user_id` = `user`.`user_id` AND `new`.`new_id` IN (SELECT `collection`.new_Id FROM `collection` WHERE `collection`.`user_id` = #{id}) and `new`.`new_pass` = 1
+</select>
+<select id="getNewsOfAuthor" parameterType="java.lang.String" resultType="com.news.entity.NewsOfIndex">
+SELECT	`new`.`new_id` newId,
+	`new`.`new_img` newImg,
+	`new`.`new_title` newTitle,
+	`new`.`new_text` newText,
+	`new`.`new_createtime` newCreatetime,
+	`user`.`user_id` userId,
+	`user`.`user_name` userName,
+	 (SELECT`statistic`.`statistic_comment` FROM `statistic` WHERE `statistic`.`new_id` = `new`.`new_id`)  statisticComment 
+ FROM `new`,`user` WHERE `new`.`user_id` = `user`.`user_id` AND `new`.`user_id` = #{authorId} and `new`.`new_pass` = 1
+</select>
+<select id="getNewsOfAuthoring" parameterType="java.lang.String" resultType="com.news.entity.NewsOfIndex">
+SELECT	`new`.`new_id` newId,
+	`new`.`new_img` newImg,
+	`new`.`new_title` newTitle,
+	`new`.`new_text` newText,
+	`new`.`new_createtime` newCreatetime,
+	`user`.`user_id` userId,
+	`user`.`user_name` userName,
+	 (SELECT`statistic`.`statistic_comment` FROM `statistic` WHERE `statistic`.`new_id` = `new`.`new_id`)  statisticComment 
+ FROM `new`,`user` WHERE `new`.`user_id` = `user`.`user_id` AND `new`.`user_id` = #{authorId} and `new`.`new_pass` = 0
+</select>
+<select id="getNewsOfAuthorno" parameterType="java.lang.String" resultType="com.news.entity.NewsOfIndex">
+SELECT	`new`.`new_id` newId,
+	`new`.`new_img` newImg,
+	`new`.`new_title` newTitle,
+	`new`.`new_text` newText,
+	`new`.`new_createtime` newCreatetime,
+	`user`.`user_id` userId,
+	`user`.`user_name` userName,
+	 (SELECT`statistic`.`statistic_comment` FROM `statistic` WHERE `statistic`.`new_id` = `new`.`new_id`)  statisticComment 
+ FROM `new`,`user` WHERE `new`.`user_id` = `user`.`user_id` AND `new`.`user_id` = #{authorId} and `new`.`new_pass` = -1
+</select>
+<select id="search"  resultType="com.news.entity.NewsOfIndex">
+ SELECT 
+	`new`.`new_id` newId,
+	`new`.`new_img` newImg,
+	`new`.`new_title` newTitle,
+	`new`.`new_text` newText,
+	`new`.`new_createtime` newCreatetime,
+	`user`.`user_id` userId,
+	`user`.`user_name` userName,
+	 (SELECT`statistic`.`statistic_comment` FROM `statistic` WHERE `statistic`.`new_id` = `new`.`new_id`)  statisticComment 
+ FROM `new`,`user` WHERE `new`.`user_id` = `user`.`user_id` and `new`.`new_pass` = 1 and `new`.`new_title` LIKE #{q}
+</select>
+</mapper>

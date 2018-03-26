@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.0.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd
+		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd">
+
+<!-- 自动扫描该包，使SpringMVC认为包下用了@controller注解的类是控制器 -->
+  <context:component-scan base-package="com.news" />
+ <!-- 定义跳转的文件的前后缀 ，视图模式配置-->
+  <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+    <!-- 这里的配置我的理解是自动给后面action的方法return的字符串加上前缀和后缀，变成一个 可用的url地址 -->
+    <property name="prefix" value="/view/" />
+    <property name="suffix" value=".jsp" />
+  </bean>
+  <!-- 静态资源请求 -->
+  <mvc:default-servlet-handler/>
+  <!-- 配置直接转发的页面  可以直接转到页面-->
+  <!-- <mvc:view-controller path="/success" view-name="success"/> -->
+  <!-- 防止其他请求失灵  -->
+  <mvc:annotation-driven></mvc:annotation-driven>
+	<!-- 文件上传 -->
+		<bean id="multipartResolver"
+			class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+			<!-- 设置上传文件的最大尺寸为5MB -->
+			<property name="maxUploadSize">
+				<value>5242880</value>
+			</property>
+		</bean>
+	<!-- 校验器 -->
+	<bean id="validator"
+		class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">
+		<!-- hibernate校验器-->
+		<property name="providerClass" value="org.hibernate.validator.HibernateValidator" />
+		<!-- 指定校验使用的资源文件，在文件中配置校验错误信息，如果不指定则默认使用classpath下的ValidationMessages.properties -->
+		<property name="validationMessageSource" ref="messageSource" />
+	</bean>
+<!-- 校验错误信息配置文件 -->
+	<bean id="messageSource"
+		class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+		<!-- 资源文件名-->
+		<property name="basenames">   
+       	 <list>    
+            <value>classpath:UserValidationMessages</value> 
+       	 </list>   
+       	 </property>
+		<!-- 资源文件编码格式 -->
+		<property name="fileEncodings" value="utf-8" />
+		<!-- 对资源文件内容缓存时间，单位秒 -->
+		<property name="cacheSeconds" value="120" />
+	</bean>
+  <!--拦截器 -->
+<!-- <mvc:interceptors>
+	多个拦截器,顺序执行
+	登陆认证拦截器
+	<mvc:interceptor>
+		<mvc:mapping path="/**"/>
+		<bean class="cn.itcast.ssm.interceptor.LoginInterceptor"></bean>
+	</mvc:interceptor>
+	<mvc:interceptor>
+		/**表示所有url包括子url路径
+		<mvc:mapping path="/**"/>
+		<bean class="cn.itcast.ssm.interceptor.HandlerInterceptor1"></bean>
+	</mvc:interceptor>
+	<mvc:interceptor>
+		<mvc:mapping path="/**"/>
+		<bean class="cn.itcast.ssm.interceptor.HandlerInterceptor2"></bean>
+	</mvc:interceptor>
+</mvc:interceptors> -->
+</beans>

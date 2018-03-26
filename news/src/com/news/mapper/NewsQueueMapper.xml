@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.news.mapper.NewsQueueMapper" >
+<select id="getNewstoQueue"  parameterType="java.util.Map" resultType="com.news.entity.NewsQueue">
+  SELECT new_id newsId,new_title newsTitle,new_createtime+new_updatetime newsTimeWeight ,new_updatetime newsUpdateTime
+  FROM `new`
+  WHERE  new_pass = 0 AND new_createtime+new_updatetime > #{weight} 
+  ORDER BY new_createtime+new_updatetime 
+  LIMIT 0,#{quantity}
+</select>
+</mapper>

@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.news.mapper.ManagerMapper" >
+  <resultMap id="BaseResultMap" type="com.news.entity.Manager" >
+    <id column="manager_id" property="managerId" jdbcType="INTEGER" />
+    <result column="manager_number" property="managerNumber" jdbcType="VARCHAR" />
+    <result column="manager_loginname" property="managerLoginname" jdbcType="VARCHAR" />
+    <result column="manager_password" property="managerPassword" jdbcType="VARCHAR" />
+    <result column="manager_name" property="managerName" jdbcType="VARCHAR" />
+    <result column="manager_createtime" property="managerCreatetime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    manager_id, manager_number, manager_loginname, manager_password, manager_name, manager_createtime
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.news.entity.ManagerExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from manager
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="getManagerToLogin" parameterType="com.news.entity.Manager" resultMap="BaseResultMap">
+ 	 	SELECT * FROM `manager` 
+ 	 	WHERE 
+ 	 		`manager`.`manager_loginname` = #{managerLoginname}
+ 	 	AND
+ 	 		 `manager`.`manager_password`= #{managerPassword}
+ 	 </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from manager
+    where manager_id = #{managerId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from manager
+    where manager_id = #{managerId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.news.entity.ManagerExample" >
+    delete from manager
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.news.entity.Manager" >
+    insert into manager (manager_id, manager_number, manager_loginname, 
+      manager_password, manager_name, manager_createtime
+      )
+    values (#{managerId,jdbcType=INTEGER}, #{managerNumber,jdbcType=VARCHAR}, #{managerLoginname,jdbcType=VARCHAR}, 
+      #{managerPassword,jdbcType=VARCHAR}, #{managerName,jdbcType=VARCHAR}, #{managerCreatetime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.news.entity.Manager" >
+    insert into manager
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="managerId != null" >
+        manager_id,
+      </if>
+      <if test="managerNumber != null" >
+        manager_number,
+      </if>
+      <if test="managerLoginname != null" >
+        manager_loginname,
+      </if>
+      <if test="managerPassword != null" >
+        manager_password,
+      </if>
+      <if test="managerName != null" >
+        manager_name,
+      </if>
+      <if test="managerCreatetime != null" >
+        manager_createtime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="managerId != null" >
+        #{managerId,jdbcType=INTEGER},
+      </if>
+      <if test="managerNumber != null" >
+        #{managerNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="managerLoginname != null" >
+        #{managerLoginname,jdbcType=VARCHAR},
+      </if>
+      <if test="managerPassword != null" >
+        #{managerPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="managerName != null" >
+        #{managerName,jdbcType=VARCHAR},
+      </if>
+      <if test="managerCreatetime != null" >
+        #{managerCreatetime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.news.entity.ManagerExample" resultType="java.lang.Integer" >
+    select count(*) from manager
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update manager
+    <set >
+      <if test="record.managerId != null" >
+        manager_id = #{record.managerId,jdbcType=INTEGER},
+      </if>
+      <if test="record.managerNumber != null" >
+        manager_number = #{record.managerNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="record.managerLoginname != null" >
+        manager_loginname = #{record.managerLoginname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.managerPassword != null" >
+        manager_password = #{record.managerPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="record.managerName != null" >
+        manager_name = #{record.managerName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.managerCreatetime != null" >
+        manager_createtime = #{record.managerCreatetime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update manager
+    set manager_id = #{record.managerId,jdbcType=INTEGER},
+      manager_number = #{record.managerNumber,jdbcType=VARCHAR},
+      manager_loginname = #{record.managerLoginname,jdbcType=VARCHAR},
+      manager_password = #{record.managerPassword,jdbcType=VARCHAR},
+      manager_name = #{record.managerName,jdbcType=VARCHAR},
+      manager_createtime = #{record.managerCreatetime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.news.entity.Manager" >
+    update manager
+    <set >
+      <if test="managerNumber != null" >
+        manager_number = #{managerNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="managerLoginname != null" >
+        manager_loginname = #{managerLoginname,jdbcType=VARCHAR},
+      </if>
+      <if test="managerPassword != null" >
+        manager_password = #{managerPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="managerName != null" >
+        manager_name = #{managerName,jdbcType=VARCHAR},
+      </if>
+      <if test="managerCreatetime != null" >
+        manager_createtime = #{managerCreatetime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where manager_id = #{managerId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.news.entity.Manager" >
+    update manager
+    set manager_number = #{managerNumber,jdbcType=VARCHAR},
+      manager_loginname = #{managerLoginname,jdbcType=VARCHAR},
+      manager_password = #{managerPassword,jdbcType=VARCHAR},
+      manager_name = #{managerName,jdbcType=VARCHAR},
+      manager_createtime = #{managerCreatetime,jdbcType=TIMESTAMP}
+    where manager_id = #{managerId,jdbcType=INTEGER}
+  </update>
+</mapper>

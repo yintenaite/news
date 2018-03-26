@@ -1,0 +1,48 @@
+.page-article{
+	margin-top: -15px;
+	margin-left: 30px;
+	margin-bottom: 10px;
+}
+.article-header{
+	margin-bottom: 20px;  
+}
+
+.page-article .article-header > .sub{
+	color: #ff746e;
+}
+.page-article .article-header > .title {
+    color: #444;
+    font-size: 30px;
+    font-weight: 700;
+    line-height: 34px;
+}
+.article-content{
+	margin-bottom: 60px;
+}
+.dtag::before {
+    background: #ed4040 none repeat scroll 0 0;
+    border-radius: 5px;
+    content: "";
+    height: 18px;
+    left: 0;
+    margin-top: -9px;
+    position: absolute;
+    top: 50%;
+    width: 4px;
+}
+.dtag {
+    color: #222;
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 1;
+    margin-bottom: 20px;
+    padding-left: 14px;
+    position: relative;
+    float: left;
+}
+
+.detail-content img{
+	max-width: 100%;
+}
+
+

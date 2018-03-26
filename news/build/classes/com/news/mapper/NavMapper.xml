@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.news.mapper.NavMapper" >
+  <resultMap id="BaseResultMap" type="com.news.entity.Nav" >
+    <id column="nav_id" property="navId" jdbcType="INTEGER" />
+    <result column="nav_name" property="navName" jdbcType="VARCHAR" />
+    <result column="nav_href" property="navHref" jdbcType="VARCHAR" />
+    <result column="nav_img" property="navImg" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    nav_id, nav_name, nav_href, nav_img
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.news.entity.NavExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from nav
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="getAllNav" resultMap="BaseResultMap">
+  	select * from nav
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from nav
+    where nav_id = #{navId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from nav
+    where nav_id = #{navId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.news.entity.NavExample" >
+    delete from nav
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.news.entity.Nav" >
+    insert into nav (nav_id, nav_name, nav_href, 
+      nav_img)
+    values (#{navId,jdbcType=INTEGER}, #{navName,jdbcType=VARCHAR}, #{navHref,jdbcType=VARCHAR}, 
+      #{navImg,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.news.entity.Nav" >
+    insert into nav
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="navId != null" >
+        nav_id,
+      </if>
+      <if test="navName != null" >
+        nav_name,
+      </if>
+      <if test="navHref != null" >
+        nav_href,
+      </if>
+      <if test="navImg != null" >
+        nav_img,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="navId != null" >
+        #{navId,jdbcType=INTEGER},
+      </if>
+      <if test="navName != null" >
+        #{navName,jdbcType=VARCHAR},
+      </if>
+      <if test="navHref != null" >
+        #{navHref,jdbcType=VARCHAR},
+      </if>
+      <if test="navImg != null" >
+        #{navImg,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.news.entity.NavExample" resultType="java.lang.Integer" >
+    select count(*) from nav
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update nav
+    <set >
+      <if test="record.navId != null" >
+        nav_id = #{record.navId,jdbcType=INTEGER},
+      </if>
+      <if test="record.navName != null" >
+        nav_name = #{record.navName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.navHref != null" >
+        nav_href = #{record.navHref,jdbcType=VARCHAR},
+      </if>
+      <if test="record.navImg != null" >
+        nav_img = #{record.navImg,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update nav
+    set nav_id = #{record.navId,jdbcType=INTEGER},
+      nav_name = #{record.navName,jdbcType=VARCHAR},
+      nav_href = #{record.navHref,jdbcType=VARCHAR},
+      nav_img = #{record.navImg,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.news.entity.Nav" >
+    update nav
+    <set >
+      <if test="navName != null" >
+        nav_name = #{navName,jdbcType=VARCHAR},
+      </if>
+      <if test="navHref != null" >
+        nav_href = #{navHref,jdbcType=VARCHAR},
+      </if>
+      <if test="navImg != null" >
+        nav_img = #{navImg,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where nav_id = #{navId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.news.entity.Nav" >
+    update nav
+    set nav_name = #{navName,jdbcType=VARCHAR},
+      nav_href = #{navHref,jdbcType=VARCHAR},
+      nav_img = #{navImg,jdbcType=VARCHAR}
+    where nav_id = #{navId,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -1,0 +1,189 @@
+.aa{
+    background-color: #666;
+}
+/* 鏍戝鑸紑濮�*/
+.navul li {
+	width:150px;
+	padding-left: 50px;	
+}
+.navul h4 {
+	margin-top: 2px;
+	margin-bottom: 2px;
+}
+.nav-icon{
+	width: 20px;
+	height: 20px;
+	float: left;
+	margin-right: 5px;
+}
+ul>li>a{
+	color: #898989;
+}
+/* 鏍戝鑸粨鏉�*/
+.item{
+	border-bottom: 1px solid #f5f6f7;
+    padding: 16px 0;
+}
+.leftBox{
+	border: 1px solid #e8e8e8;
+    height: 82px;
+    width: 126px;
+}
+.rightBox{
+	display: block;
+    vertical-align: middle;
+    width: 78%;
+    height: 84px;
+    margin-left: 144px;
+}
+.list-tittle{
+	color: #000042;
+    display: block;
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 1.15;
+    margin-bottom: 4px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.list-abstract{
+	color: #444;
+    font-size: 12px;
+    line-height: 20px;
+    margin-bottom: 8px;
+    max-height: 3em;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.list-footer{
+	color: #999;
+    font-size: 12px;
+    height: 16px;
+    line-height: 16px;
+}
+.news-content{
+	margin-top: -12px;
+}
+.news-content li{
+	display: inline-block;
+}
+.list-time{
+	padding-right:10px;
+}
+.news-content .leftBox img{
+	width:100%;
+	height:100%;
+}
+.loadmore{
+	background: #f1f2f3 none repeat scroll 0 0;
+    color: #999;
+    display: block;
+    font-size: 12px;
+    height: 30px;
+    line-height: 30px;
+    margin: 16px -8px 16px 35px;
+    text-align: center;
+}
+.index-right .head::before {
+    background-color: #ed4040;
+    border-radius: 5px;
+    content: "";
+    display: inline-block;
+    float: left;
+    height: 16px;
+    left: 0;
+    margin-top: -8px;
+    position: absolute;
+    top: 50%;
+    width: 4px;
+}
+.index-right .head {
+    color: #444;
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 1;
+    padding-left: 10px;
+    position: relative;
+}
+.index-right .news a::before {
+    background-color: #777;
+    content: "";
+    display: inline-block;
+    height: 3px;
+    left: 0;
+    margin-bottom: 3px;
+    position: absolute;
+    top: 8px;
+    width: 3px;
+}
+.index-right .news a {
+    color: #444;
+    cursor: pointer;
+    display: block;
+    font-size: 14px;
+    line-height: 1.5em;
+    margin-top: 16px;
+    overflow: hidden;
+    padding-left: 9px;
+    position: relative;
+}
+.clearfix {
+    clear: both;
+}
+.index-title {
+	color:#222;
+}
+.index-title :hover{
+	color:#406599;
+}
+/*添加文章*/
+td a{
+	color: #ed4040;
+}
+
+}
+.user-bar a{
+	color: #ed4040;
+	text-decoration:none;
+}
+a:focus {  
+    outline:none;  
+} 
+select {
+  /*Chrome和Firefox里面的边框是不一样的，所以复写了一下*/
+  border: solid 1px #000;
+  /*很关键：将默认的select选择框样式清除*/
+  appearance:none;
+  height: 28px;
+
+}
+
+a:hover {
+    text-decoration: none;
+}
+td a{
+	color: #ed4040;
+}
+
+}
+.user-bar a{
+	color: #ed4040;
+	text-decoration:none;
+}
+a:focus {  
+    outline:none;  
+} 
+a:focus, a:hover {
+    color: #ed4040;
+}
+.like a {
+    background: #ed4040 none repeat scroll 0 0;
+    border-radius: 3px;
+    color: #fff;
+    font-size: 16px;
+    padding: 3px 15px;
+    padding-top: 6px;
+    text-decoration:none;
+}
+	

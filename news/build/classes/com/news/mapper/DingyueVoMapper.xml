@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.news.mapper.DingyueVoMapper" >
+<select id="getDingyue" parameterType="java.lang.String" resultType="com.news.entity.DingyueVo">
+  SELECT `user`.`user_id` authorId ,`user`.`user_name` userName,`user`.`user_img_url` userImgUrl,`author`.`author_abstract` authorAbstract FROM `user`,`author` WHERE `user`.`user_id` = `author`.`user_id` AND`user`.`user_id`
+  IN(SELECT `subscribe`.`author_id`  FROM `subscribe` WHERE `subscribe`.`user_id`=#{userId})
+</select>
+<select id="getDingyueOfAuthor" parameterType="java.lang.String" resultType="java.lang.Integer">
+	select count(*) from `subscribe` where `subscribe`.`author_id`=#{authorId}
+</select>
+</mapper>

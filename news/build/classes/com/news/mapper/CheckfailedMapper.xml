@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.news.mapper.CheckfailedMapper" >
+  <resultMap id="BaseResultMap" type="com.news.entity.Checkfailed" >
+    <id column="chf_id" property="chfId" jdbcType="INTEGER" />
+    <result column="chf_reason" property="chfReason" jdbcType="VARCHAR" />
+    <result column="chf_createtime" property="chfCreatetime" jdbcType="TIMESTAMP" />
+    <result column="new_id" property="newId" jdbcType="VARCHAR" />
+    <result column="manager_id" property="managerId" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    chf_id, chf_reason, chf_createtime, new_id, manager_id
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.news.entity.CheckfailedExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from checkfailed
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from checkfailed
+    where chf_id = #{chfId,jdbcType=INTEGER}
+  </select>
+  <select id="getReason" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+	*
+    from checkfailed
+    where new_id = #{newsid}  ORDER BY chf_createtime DESC limit 0,1
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from checkfailed
+    where chf_id = #{chfId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.news.entity.CheckfailedExample" >
+    delete from checkfailed
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.news.entity.Checkfailed" >
+    insert into checkfailed (chf_id, chf_reason, chf_createtime, 
+      new_id, manager_id)
+    values (#{chfId,jdbcType=INTEGER}, #{chfReason,jdbcType=VARCHAR}, #{chfCreatetime,jdbcType=TIMESTAMP}, 
+      #{newId,jdbcType=VARCHAR}, #{managerId,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.news.entity.Checkfailed" >
+    insert into checkfailed
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="chfId != null" >
+        chf_id,
+      </if>
+      <if test="chfReason != null" >
+        chf_reason,
+      </if>
+      <if test="chfCreatetime != null" >
+        chf_createtime,
+      </if>
+      <if test="newId != null" >
+        new_id,
+      </if>
+      <if test="managerId != null" >
+        manager_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="chfId != null" >
+        #{chfId,jdbcType=INTEGER},
+      </if>
+      <if test="chfReason != null" >
+        #{chfReason,jdbcType=VARCHAR},
+      </if>
+      <if test="chfCreatetime != null" >
+        #{chfCreatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="newId != null" >
+        #{newId,jdbcType=VARCHAR},
+      </if>
+      <if test="managerId != null" >
+        #{managerId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.news.entity.CheckfailedExample" resultType="java.lang.Integer" >
+    select count(*) from checkfailed
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update checkfailed
+    <set >
+      <if test="record.chfId != null" >
+        chf_id = #{record.chfId,jdbcType=INTEGER},
+      </if>
+      <if test="record.chfReason != null" >
+        chf_reason = #{record.chfReason,jdbcType=VARCHAR},
+      </if>
+      <if test="record.chfCreatetime != null" >
+        chf_createtime = #{record.chfCreatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.newId != null" >
+        new_id = #{record.newId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.managerId != null" >
+        manager_id = #{record.managerId,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update checkfailed
+    set chf_id = #{record.chfId,jdbcType=INTEGER},
+      chf_reason = #{record.chfReason,jdbcType=VARCHAR},
+      chf_createtime = #{record.chfCreatetime,jdbcType=TIMESTAMP},
+      new_id = #{record.newId,jdbcType=VARCHAR},
+      manager_id = #{record.managerId,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.news.entity.Checkfailed" >
+    update checkfailed
+    <set >
+      <if test="chfReason != null" >
+        chf_reason = #{chfReason,jdbcType=VARCHAR},
+      </if>
+      <if test="chfCreatetime != null" >
+        chf_createtime = #{chfCreatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="newId != null" >
+        new_id = #{newId,jdbcType=VARCHAR},
+      </if>
+      <if test="managerId != null" >
+        manager_id = #{managerId,jdbcType=INTEGER},
+      </if>
+    </set>
+    where chf_id = #{chfId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.news.entity.Checkfailed" >
+    update checkfailed
+    set chf_reason = #{chfReason,jdbcType=VARCHAR},
+      chf_createtime = #{chfCreatetime,jdbcType=TIMESTAMP},
+      new_id = #{newId,jdbcType=VARCHAR},
+      manager_id = #{managerId,jdbcType=INTEGER}
+    where chf_id = #{chfId,jdbcType=INTEGER}
+  </update>
+</mapper>

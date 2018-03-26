@@ -1,0 +1,317 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.news.mapper.UserMapper" >
+<resultMap id="UserResultMap" type="com.news.entity.User" >
+    <id column="user_id" property="userId" jdbcType="VARCHAR" />
+    <result column="user_name" property="userName" jdbcType="VARCHAR" />
+    <result column="user_loginname" property="userLoginName" jdbcType="VARCHAR" />
+    <result column="user_password" property="userPassword" jdbcType="VARCHAR" />
+    <result column="user_createtime" property="userCreatetime" jdbcType="TIMESTAMP" />
+    <result column="user_blacklist" property="userBlacklist" jdbcType="INTEGER" />
+    <result column="user_nav" property="userNav" jdbcType="VARCHAR" />
+    <result column="user_isauthor" property="userIsauthor" jdbcType="INTEGER" />
+     <result column="user_img_url" property="userImgUrl" jdbcType="VARCHAR" />
+  </resultMap>
+	 <select id="checkuserloginname" parameterType="java.lang.String" resultType="java.lang.Integer">
+ 	 	SELECT count(*) FROM `user` 
+ 	 	WHERE 
+ 	 		`user`.`user_loginname` = #{loginName}
+ 	 	
+ 	 </select>
+	 <select id="getUserToLogin" parameterType="com.news.entity.User" resultMap="UserResultMap">
+ 	 	SELECT * FROM `user` 
+ 	 	WHERE 
+ 	 		`user`.`user_loginname` = #{userLoginName}
+ 	 	AND
+ 	 		 `user`.`user_password`= #{userPassword}
+ 	 </select>
+
+	 <select id="getUserById" parameterType="java.lang.String" resultMap="UserResultMap">
+ 	 	SELECT * FROM `user` 
+ 	 	WHERE 
+ 	 		`user`.`user_id` = #{id}
+ 	 	
+ 	 </select>
+ 	 
+	<insert id="addUser" parameterType="com.news.entity.User" >
+		insert into user (user_id, user_name, user_loginname, 
+     					 user_password, user_createtime, user_blacklist, 
+     						 user_nav, user_isauthor,user_img_url)
+   		 values (#{userId,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR}, #{userLoginName,jdbcType=VARCHAR}, 
+      #{userPassword,jdbcType=VARCHAR}, #{userCreatetime,jdbcType=TIMESTAMP}, #{userBlacklist,jdbcType=INTEGER}, 
+      #{userNav,jdbcType=VARCHAR}, #{userIsauthor,jdbcType=INTEGER},#{userImgUrl,jdbcType=VARCHAR})
+	</insert>
+	<update id="updateUser" parameterType="com.news.entity.User" >
+    update user
+     <set>
+      <if test="userName != null" >
+        user_name = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="userLoginName != null" >
+        user_loginname = #{userLoginname,jdbcType=VARCHAR},
+      </if>
+      <if test="userPassword != null" >
+        user_password = #{userPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="userImgUrl != null" >
+        user_img_url = #{userImgUrl,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where user_id = #{userId}
+  </update>
+  <!-- <resultMap id="BaseResultMap" type="com.news.entity.User" >
+    <id column="user_id" property="userId" jdbcType="VARCHAR" />
+    <result column="user_name" property="userName" jdbcType="VARCHAR" />
+    <result column="user_loginname" property="userLoginname" jdbcType="VARCHAR" />
+    <result column="user_password" property="userPassword" jdbcType="VARCHAR" />
+    <result column="user_createtime" property="userCreatetime" jdbcType="TIMESTAMP" />
+    <result column="user_blacklist" property="userBlacklist" jdbcType="INTEGER" />
+    <result column="user_nav" property="userNav" jdbcType="VARCHAR" />
+    <result column="user_isauthor" property="userIsauthor" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    user_id, user_name, user_loginname, user_password, user_createtime, user_blacklist, 
+    user_nav, user_isauthor
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.news.entity.UserExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from user
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from user
+    where user_id = #{userId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from user
+    where user_id = #{userId,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.news.entity.UserExample" >
+    delete from user
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.news.entity.User" >
+    insert into user (user_id, user_name, user_loginname, 
+      user_password, user_createtime, user_blacklist, 
+      user_nav, user_isauthor)
+    values (#{userId,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR}, #{userLoginname,jdbcType=VARCHAR}, 
+      #{userPassword,jdbcType=VARCHAR}, #{userCreatetime,jdbcType=TIMESTAMP}, #{userBlacklist,jdbcType=INTEGER}, 
+      #{userNav,jdbcType=VARCHAR}, #{userIsauthor,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.news.entity.User" >
+    insert into user
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="userName != null" >
+        user_name,
+      </if>
+      <if test="userLoginname != null" >
+        user_loginname,
+      </if>
+      <if test="userPassword != null" >
+        user_password,
+      </if>
+      <if test="userCreatetime != null" >
+        user_createtime,
+      </if>
+      <if test="userBlacklist != null" >
+        user_blacklist,
+      </if>
+      <if test="userNav != null" >
+        user_nav,
+      </if>
+      <if test="userIsauthor != null" >
+        user_isauthor,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="userId != null" >
+        #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null" >
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="userLoginname != null" >
+        #{userLoginname,jdbcType=VARCHAR},
+      </if>
+      <if test="userPassword != null" >
+        #{userPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="userCreatetime != null" >
+        #{userCreatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="userBlacklist != null" >
+        #{userBlacklist,jdbcType=INTEGER},
+      </if>
+      <if test="userNav != null" >
+        #{userNav,jdbcType=VARCHAR},
+      </if>
+      <if test="userIsauthor != null" >
+        #{userIsauthor,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.news.entity.UserExample" resultType="java.lang.Integer" >
+    select count(*) from user
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update user
+    <set >
+      <if test="record.userId != null" >
+        user_id = #{record.userId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userName != null" >
+        user_name = #{record.userName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userLoginname != null" >
+        user_loginname = #{record.userLoginname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userPassword != null" >
+        user_password = #{record.userPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userCreatetime != null" >
+        user_createtime = #{record.userCreatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.userBlacklist != null" >
+        user_blacklist = #{record.userBlacklist,jdbcType=INTEGER},
+      </if>
+      <if test="record.userNav != null" >
+        user_nav = #{record.userNav,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userIsauthor != null" >
+        user_isauthor = #{record.userIsauthor,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update user
+    set user_id = #{record.userId,jdbcType=VARCHAR},
+      user_name = #{record.userName,jdbcType=VARCHAR},
+      user_loginname = #{record.userLoginname,jdbcType=VARCHAR},
+      user_password = #{record.userPassword,jdbcType=VARCHAR},
+      user_createtime = #{record.userCreatetime,jdbcType=TIMESTAMP},
+      user_blacklist = #{record.userBlacklist,jdbcType=INTEGER},
+      user_nav = #{record.userNav,jdbcType=VARCHAR},
+      user_isauthor = #{record.userIsauthor,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.news.entity.User" >
+    update user
+    <set >
+      <if test="userName != null" >
+        user_name = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="userLoginname != null" >
+        user_loginname = #{userLoginname,jdbcType=VARCHAR},
+      </if>
+      <if test="userPassword != null" >
+        user_password = #{userPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="userCreatetime != null" >
+        user_createtime = #{userCreatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="userBlacklist != null" >
+        user_blacklist = #{userBlacklist,jdbcType=INTEGER},
+      </if>
+      <if test="userNav != null" >
+        user_nav = #{userNav,jdbcType=VARCHAR},
+      </if>
+      <if test="userIsauthor != null" >
+        user_isauthor = #{userIsauthor,jdbcType=INTEGER},
+      </if>
+    </set>
+    where user_id = #{userId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.news.entity.User" >
+    update user
+    set user_name = #{userName,jdbcType=VARCHAR},
+      user_loginname = #{userLoginname,jdbcType=VARCHAR},
+      user_password = #{userPassword,jdbcType=VARCHAR},
+      user_createtime = #{userCreatetime,jdbcType=TIMESTAMP},
+      user_blacklist = #{userBlacklist,jdbcType=INTEGER},
+      user_nav = #{userNav,jdbcType=VARCHAR},
+      user_isauthor = #{userIsauthor,jdbcType=INTEGER}
+    where user_id = #{userId,jdbcType=VARCHAR}
+  </update> -->
+</mapper>
